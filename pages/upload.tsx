@@ -94,6 +94,11 @@ const Upload = () => {
                 )}
               </div>
             )}
+            {wrongFileType && (
+              <p className="text-center text-xl text-red-400 font-semibold mt-4 w-[250px]">
+                Please select a video file (mp4 or webm or ogg)
+              </p>
+            )}
           </div>
         </div>
       </div>
