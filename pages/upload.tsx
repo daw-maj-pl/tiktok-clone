@@ -17,6 +17,7 @@ const Upload = () => {
   const [wrongFileType, setWrongFileType] = useState<Boolean>(false);
   const [caption, setCaption] = useState('');
   const [category, setCategory] = useState<String>(topics[0].name);
+  const [savingPost, setSavingPost] = useState<Boolean>(false);
 
   const userProfile: any = useAuthStore(state => state.userProfile);
   const router = useRouter();
@@ -47,6 +48,8 @@ const Upload = () => {
 
   const handlePost = async () => {
     if (caption && videoAsset?._id && category) {
+      setSavingPost(true);
+
       const doc = {
         _type: 'post',
         caption,
@@ -66,6 +69,7 @@ const Upload = () => {
       };
 
       await axios.post(`${BASE_URL}/api/post`, doc);
+      await setSavingPost(false);
 
       router.push('/');
     }
@@ -171,7 +175,7 @@ const Upload = () => {
               type="button"
               className="bg-[#F51997] text-white text-base font-medium p-2 rounded w-28 lg:w-44 outline-none"
             >
-              Post
+              {savingPost ? 'Posting...' : 'Post'}
             </button>
           </div>
         </div>
