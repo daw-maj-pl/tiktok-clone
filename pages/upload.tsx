@@ -171,6 +171,7 @@ const Upload = () => {
               Discard
             </button>
             <button
+              disabled={videoAsset?.url ? false : true}
               onClick={handlePost}
               type="button"
               className="bg-[#F51997] text-white text-base font-medium p-2 rounded w-28 lg:w-44 outline-none"
