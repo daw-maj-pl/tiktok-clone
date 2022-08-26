@@ -11,6 +11,7 @@ import { BASE_URL } from '../../utils';
 import { Video } from '../../types';
 import useAuthStore from '../../store/authStore';
 import LikeButton from '../../components/LikeButton';
+import Comments from '../../components/Comments';
 
 interface IProps {
   postDetails: Video;
@@ -138,6 +139,7 @@ const Detail = ({ postDetails }: IProps) => {
                   />
                 )}
               </div>
+              <Comments />
             </div>
           </div>
         </div>
