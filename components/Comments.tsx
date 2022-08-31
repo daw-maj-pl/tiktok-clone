@@ -1,6 +1,10 @@
 import { Dispatch, SetStateAction } from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { GoVerified } from 'react-icons/go';
 import NoResults from './NoResults';
 import useAuthStore from '../store/authStore';
+import { IUser } from '../types';
 
 interface IProps {
   isPostingComment: boolean;
@@ -23,13 +27,50 @@ const Comments = ({
   comments,
   isPostingComment
 }: IProps) => {
-  const { userProfile }: any = useAuthStore();
+  const { userProfile, allUsers }: any = useAuthStore();
 
   return (
     <div className="border-t-2 border-gray-200 pt-4 px-10 mt-4 bg-[#F8F8F8] border-b-2 lg:pb-0 pb-[100px]">
       <div className="overflow-scroll lg:h-[475px]">
         {comments?.length ? (
-          <div>videos</div>
+          comments?.map((item, idx) => (
+            <>
+              {allUsers?.map(
+                (user: IUser) =>
+                  user._id === (item.postedBy._ref || item.postedBy._id) && (
+                    <div className="p-2 items-center" key={idx}>
+                      <Link href={`/profile/${user._id}`}>
+                        <div className="flex items-start gap-3">
+                          <div className="w-8 h-8">
+                            <Image
+                              width={34}
+                              height={34}
+                              className="rounded-full"
+                              src={user.image}
+                              alt="user-profile"
+                              layout="responsive"
+                            />
+                          </div>
+
+                          <div className="hidden xl:block">
+                            <p className="flex gap-1 items-center text-base font-bold text-primary lowercase">
+                              {user.userName.replaceAll(' ', '')}{' '}
+                              <GoVerified className="text-blue-400" />
+                            </p>
+                            <p className="capitalize text-gray-400 text-xs">
+                              {user.userName}
+                            </p>
+                          </div>
+                        </div>
+                      </Link>
+                      <div>
+                        <p>{item.comment}</p>
+                      </div>
+                    </div>
+                  )
+              )}
+            </>
+          ))
         ) : (
           <NoResults text="No comments yet" />
         )}
